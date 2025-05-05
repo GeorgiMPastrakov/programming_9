@@ -62,6 +62,10 @@ while (1) {
             printf("Exiting...");
             exit(0);
         }
+        default:{
+            printf("Invalid choice.\n");
+            break;
+        }
     }
 }
 return 0;
