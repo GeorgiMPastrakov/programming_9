@@ -3,6 +3,7 @@
         "stdlib.h": "c",
         "dynamicarray.h": "c",
         "task_interface.h": "c",
-        "util.h": "c"
+        "util.h": "c",
+        "stdio.h": "c"
     }
 }
