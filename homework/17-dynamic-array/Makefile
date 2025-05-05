@@ -1,5 +1,8 @@
 all: link
 
+compile-siropitalishte:
+	gcc -c Siropitalishte.c -o Siropitalishte.o
+
 compile-task_interface:
 	gcc -c task_interface.c -o task_interface.o
 
@@ -9,11 +12,15 @@ compile-inteface:
 compile-test:
 	gcc -c findIndexTest.c -o findIndexTest.o
 
-link: compile-task_interface compile-inteface compile-test 
+link: compile-task_interface compile-inteface compile-test compile-siropitalishte
 	gcc task_interface.o findIndexTest.o DynamicArray.o -o findIndexTest.exe
+	gcc task_interface.o  DynamicArray.o Siropitalishte.o -o Siropitalishte.exe
 
-run:
+run-findIndexTest:
 	findIndexTest.exe
+
+run-Siropitalishte:
+	Siropitalishte.exe
 
 clean:
 	del *.o

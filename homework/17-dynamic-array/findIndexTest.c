@@ -3,7 +3,7 @@
 #include "../../lessons/17-dynamic-array/9v/util.h"
 #include "task_interface.h"
 
-int main() {
+int main(void) {
     DynamicArray arr = init(5);
 
     pushBack(&arr, 10);
@@ -24,5 +24,6 @@ int main() {
     printf("Index of 40: %d\n", index4);
 
     release(&arr);
-    return 0;
+    
+return 0;
 }
