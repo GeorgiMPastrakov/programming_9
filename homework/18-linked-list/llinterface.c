@@ -124,9 +124,10 @@ ListType pop(LinkedList * list, uint index) {
 }
 
 void release(LinkedList * list) {
-  for(Node *nodeToDelete = NULL; list->head; list->head = list->head->next){
+  for(Node *nodeToDelete = NULL; list->head;free(nodeToDelete)){
     nodeToDelete = list->head;
-    free(nodeToDelete);
+     list->head = list->head->next;
   }
+  list->head = NULL;
   list->size = 0;
 }
