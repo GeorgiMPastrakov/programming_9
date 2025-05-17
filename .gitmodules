@@ -1,4 +1,4 @@
 [submodule "lessons"]
-	path = lessons
-	url = https://github.com/bozhidar-dimitrov/programming-with-c-lessons.git
-	branch = 2024-2025
+    path = lessons
+    url = https://github.com/bozhidar-dimitrov/programming-with-c-lessons.git
+    branch = 2024-2025
