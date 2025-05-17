@@ -2,3 +2,6 @@
 	path = lessons
 	url = https://github.com/bozhidar-dimitrov/programming-with-c-lessons.git
 	branch = 2024-2025
+[submodule "class-lessons"]
+	path = class-lessons
+	url = https://github.com/bozhidar-dimitrov/programming-with-c-lessons.git
