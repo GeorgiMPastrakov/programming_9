@@ -11,3 +11,6 @@ llinterface.o: llinterface.c llinterface.h
 
 todointerface.o: todointerface.c todointerface.h
 	gcc -c todointerface.c -o todointerface.o
+
+clean:
+	rm -f *.o *.out
