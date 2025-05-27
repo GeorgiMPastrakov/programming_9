@@ -1,2 +1,2 @@
 update-submodules:
-	git submodule update --init --recursive --remote
+	git submodule update --remote --merge
