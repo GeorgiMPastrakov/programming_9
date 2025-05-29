@@ -1,13 +1,13 @@
 #include "hashmap.h"
 
-static uint hashISBN(char *isbn, HashMap *map) {
+static uint hashISBN(char *isbn, HashMap *map){
     uint sum = 0;
     while (*isbn)
         sum += (uchar)*isbn++;
     return sum % map->bucketCnt;
 }
 
-static createHashNode(Book *b) {
+static HashNode *createHashNode(Book *b){
     HashNode *node = malloc(sizeof(HashNode));
     checkPointer(node);
     node->book = *b;
@@ -15,7 +15,7 @@ static createHashNode(Book *b) {
     return node;
 }
 
-HashMap initMap(uint bucketCnt) {
+HashMap initMap(uint bucketCnt){
     HashMap map;
     map.bucketCnt = bucketCnt;
     map.size = 0;
@@ -24,7 +24,7 @@ HashMap initMap(uint bucketCnt) {
     return map;
 }
 
-void insert(HashMap *map, Book *b) {
+void insert(HashMap *map, Book *b){
     uint index = hashISBN(b->isbn, map);
     for (HashNode *current = map->bucket[index]; current != NULL; current = current->next){
         if (strcmp(current->book.isbn, b->isbn) == 0) {
@@ -38,45 +38,66 @@ void insert(HashMap *map, Book *b) {
     map->size++;
 }
 
-static HashNode *get(HashMap *map, char *isbn) {
+Book *get(HashMap *map, char *isbn){
     uint index = hashISBN(isbn, map);
-    for (HashNode *current = map->bucket[index]; current != NULL; current = current->next) {
+    HashNode *current = map->bucket[index];
+    while (current != NULL) {
         if (strcmp(current->book.isbn, isbn) == 0) {
-            return current;
+            return &current->book;
         }
+        current = current->next;
     }
     printf("Book with ISBN %s not found.\n", isbn);
     return NULL;
 }
 
-Book erase(HashMap *map, char *isbn) {
+void erase(HashMap *map, char *isbn){
     uint index = hashISBN(isbn, map);
-    HashNode *prev = NULL;
     HashNode *current = map->bucket[index];
+    HashNode *prev = NULL;
 
     while (current != NULL) {
         if (strcmp(current->book.isbn, isbn) == 0) {
-            Book removedBook = current->book;
             if (prev == NULL) {
                 map->bucket[index] = current->next;
-            } else {
+            } 
+            else {
                 prev->next = current->next;
             }
             free(current);
             map->size--;
-            return removedBook;
+            return;
         }
         prev = current;
         current = current->next;
     }
-    printf("Book with ISBN %s not found.\n", isbn);
-    Book emptyBook = {0};
-    return emptyBook;
-    
+    printf("Book with ISBN %s not found for deletion.\n", isbn);
 }
 
 
-static void freeList(HashNode *n) {
+void printBook(Book *b){
+    if (b != NULL) {
+        printf("Title: %s\n", b->title);
+        printf("Author: %s\n", b->author);
+        printf("Genre: %s\n", b->genre);
+        printf("Year: %d\n", b->year);
+        printf("ISBN: %s\n \n", b->isbn);
+    } else {
+        printf("Book not found.\n");
+    }
+}
+
+void printAllBooks(HashMap *map){
+    for (uint i = 0; i < map->bucketCnt; i++) {
+        HashNode *current = map->bucket[i];
+        while (current != NULL) {
+            printBook(&current->book);
+            current = current->next;
+        }
+    }
+}
+
+static void freeList(HashNode *n){
     while (n != NULL) {
         HashNode *tmp = n->next;
         free(n);
@@ -84,12 +105,10 @@ static void freeList(HashNode *n) {
     }
 }
 
-void release(HashMap *map) {
-    for (uint i = 0; i < map->bucketCnt; i++){
-        freeList(map->bucket[i]);
-    }
+void release(HashMap *map){
+    for (uint i = 0; i < map->bucketCnt; freeList(map->bucket[i++])){}
     free(map->bucket);
-    map->bucket    = NULL;
+    map->bucket = NULL;
     map->bucketCnt = 0;
-    map->size      = 0;
+    map->size = 0;
 }

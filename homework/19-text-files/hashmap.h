@@ -1,6 +1,5 @@
 #ifndef HASHMAP_H
 #define HASHMAP_H
-#include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +35,10 @@ typedef struct {
 
 HashMap initMap(uint bucketCnt);
 void insert(HashMap *map, Book *b);
-Book erase(HashMap *map, char *isbn);
+Book *get(HashMap *map, char *isbn);
+void erase(HashMap *map, char *isbn);
+void printBook(Book *b);
+void printAllBooks(HashMap *map);
 void release(HashMap *map);
 
 #endif
